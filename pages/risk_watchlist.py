@@ -43,14 +43,7 @@ st.markdown(
 """,
     unsafe_allow_html=True,
 )
-
-
-@st.cache_data
-def load_scored_data() -> pd.DataFrame:
-    return load_scored_customers_file()
-
-
-df = load_scored_data()
+df = load_scored_customers_file()
 summary = summarize_scored_customers(df)
 _, threshold = load_model_bundle()
 

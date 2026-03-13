@@ -34,6 +34,7 @@ if st.session_state.prev_page != pg.title:
             del st.session_state[key]
 
 if "shared_model_cache_warmed" not in st.session_state:
+    # 앱 시작 시 전체 고객 예측 결과 파일을 먼저 생성합니다.
     with st.spinner("모델 예측 결과를 준비하는 중입니다..."):
         refresh_scored_customers_file()
     st.session_state.shared_model_cache_warmed = True

@@ -90,28 +90,8 @@ div[data-testid="stSidebarNav"]::before {
 """,
     unsafe_allow_html=True,
 )
-@st.cache_data
-def load_metrics():
-    return evaluate_saved_model()
-
-
-@st.cache_data
-def load_scored_data():
-    return score_all_customers()
-
-
-@st.cache_data
-def load_metrics():
-    return evaluate_saved_model()
-
-
-@st.cache_data
-def load_scored_data():
-    return load_scored_customers_file()
-
-
-metrics = load_metrics()
-scored_df = load_scored_data()
+metrics = evaluate_saved_model()
+scored_df = load_scored_customers_file()
 model, threshold = load_model_bundle()
 
 st.markdown('<div class="main-title">모델 정보</div>', unsafe_allow_html=True)

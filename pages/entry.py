@@ -125,13 +125,6 @@ div[data-testid="stSidebarNav"]::before {
 """,
     unsafe_allow_html=True,
 )
-
-
-@st.cache_data
-def load_scored_data() -> pd.DataFrame:
-    return load_scored_customers_file()
-
-
 @st.cache_data
 def load_data_dictionary() -> pd.DataFrame | None:
     dict_path = Path(__file__).resolve().parent.parent / "data" / "insurance_policyholder_churn_data_dictionary.csv"
@@ -143,8 +136,8 @@ def load_data_dictionary() -> pd.DataFrame | None:
         data_dict["description"] = data_dict["description"].map(lambda value: DESCRIPTION_KO.get(value, value))
     return data_dict
 
-
-df = load_scored_data()
+# 홈 화면도 원본 CSV가 아니라 모델이 만든 예측 결과 파일을 기준으로 표시합니다.
+df = load_scored_customers_file()
 data_dict = load_data_dictionary()
 
 total_customers = int(len(df))

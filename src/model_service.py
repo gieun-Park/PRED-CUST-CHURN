@@ -220,6 +220,7 @@ def build_reason_text(row: pd.Series) -> str:
 
 @st.cache_data
 def score_all_customers() -> pd.DataFrame:
+    # 원본 고객 데이터에 new 모델 예측 컬럼을 붙인 결과입니다.
     raw_df = load_raw_data()
     model, threshold = load_model_bundle()
     feature_df = build_feature_frame(raw_df)
@@ -240,6 +241,7 @@ def score_all_customers() -> pd.DataFrame:
 
 
 def refresh_scored_customers_file() -> pd.DataFrame:
+    # 앱에서 공통으로 쓰는 예측 결과 파일을 매 실행 시 갱신합니다.
     scored_df = score_all_customers()
     output_dir = get_scored_output_dir()
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -250,6 +252,7 @@ def refresh_scored_customers_file() -> pd.DataFrame:
 
 @st.cache_data
 def load_scored_customers_file() -> pd.DataFrame:
+    # 페이지들은 계산을 다시 하지 않고 이 파일을 공통으로 읽습니다.
     scored_path = get_scored_output_path()
     if not scored_path.exists():
         raise FileNotFoundError(f"Scored customer file not found: {scored_path}")
