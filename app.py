@@ -26,9 +26,16 @@ if st.session_state.prev_page != pg.title:
         if key not in keep_keys:
             del st.session_state[key]
 
+st.set_page_config(
+    page_title="Dashboard",
+    layout="wide"
+)
+
 st.markdown(
     """
     <style>
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
         div.st-emotion-cache-zy6yx3 {
             padding: 3rem 1rem 10rem !important;
         }
