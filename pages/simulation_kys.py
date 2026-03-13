@@ -1,3 +1,11 @@
+import sklearn
+import joblib
+import streamlit
+import pandas
+
+
+
+
 from pathlib import Path
 import platform
 
@@ -7,6 +15,7 @@ import pandas as pd
 import streamlit as st
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
+
 
 # ==============================
 # 페이지 설정
@@ -113,29 +122,19 @@ div[data-testid="stMetricValue"] {
 # ==============================
 @st.cache_data
 def load_data():
-    if not DATA_PATH.exists():
-        raise FileNotFoundError(f"데이터 파일이 없습니다: {DATA_PATH}")
     return pd.read_csv(DATA_PATH)
-
 
 @st.cache_resource
 def load_model():
-    if not MODEL_PATH.exists():
-        raise FileNotFoundError(f"모델 파일이 없습니다: {MODEL_PATH}")
-    if not THRESHOLD_PATH.exists():
-        raise FileNotFoundError(f"threshold 파일이 없습니다: {THRESHOLD_PATH}")
-
     model = joblib.load(MODEL_PATH)
     threshold = joblib.load(THRESHOLD_PATH)
     return model, threshold
 
-
 # ==============================
-# 학습 노트북의 파생변수 함수 그대로 사용
+# 노트북 파생변수 그대로 사용
 # ==============================
 def add_engineered_features(X: pd.DataFrame) -> pd.DataFrame:
     result = X.copy()
-
     result["premium_increase_shock"] = np.clip(result["premium_change_pct"], 0, None) * (
         1 + result["num_price_increases_last_3y"]
     )
@@ -156,9 +155,7 @@ def add_engineered_features(X: pd.DataFrame) -> pd.DataFrame:
     result["monthly_payment_flag"] = (result["payment_frequency"] == "Monthly").astype(int)
     result["monthly_x_premium_jump"] = result["monthly_payment_flag"] * result["premium_jump_flag"]
     result["auto_or_health"] = result["policy_type"].isin(["Auto", "Health"]).astype(int)
-
     return result
-
 
 # ==============================
 # 모델 입력 생성
@@ -174,33 +171,6 @@ def make_model_input(df: pd.DataFrame) -> pd.DataFrame:
 
     X = add_engineered_features(X)
     return X
-
-
-# ==============================
-# 파생변수 생성 후 입력 검증
-# ==============================
-def validate_model_input(X: pd.DataFrame):
-    required_cols = [
-        "premium_increase_shock",
-        "premium_jump_flag",
-        "payment_risk_score",
-        "service_risk_score",
-        "engagement_risk_score",
-        "tenure_inverse",
-        "single_policy_short_tenure",
-        "premium_x_complaint",
-        "premium_x_quote",
-        "late_x_quote",
-        "downgrade_x_quote",
-        "monthly_payment_flag",
-        "monthly_x_premium_jump",
-        "auto_or_health",
-    ]
-
-    missing_cols = [c for c in required_cols if c not in X.columns]
-    if missing_cols:
-        raise ValueError(f"모델 입력에 필요한 컬럼이 없습니다: {missing_cols}")
-
 
 # ==============================
 # 위험 점수 계산
@@ -237,7 +207,6 @@ def compute_priority_score(df: pd.DataFrame) -> pd.Series:
 
     return score
 
-
 # ==============================
 # 상위 위험 고객 선택
 # ==============================
@@ -252,7 +221,6 @@ def select_top_risky_indices(base_df: pd.DataFrame, condition_mask: pd.Series, p
     n = int(np.ceil(len(ranked_idx) * pct / 100))
     n = min(max(n, 0), len(ranked_idx))
     return ranked_idx[:n]
-
 
 # ==============================
 # 시뮬레이션 반영
@@ -325,14 +293,11 @@ def apply_simulation_scenario(
 
     return sim_df
 
-
 # ==============================
 # 예측 함수
 # ==============================
 def predict_churn(df: pd.DataFrame, model, threshold: float):
     X = make_model_input(df)
-    validate_model_input(X)
-
     probs = model.predict_proba(X)[:, 1]
     pred = (probs >= threshold).astype(int)
 
@@ -344,7 +309,6 @@ def predict_churn(df: pd.DataFrame, model, threshold: float):
         "avg_prob": probs.mean() * 100,
         "churn_count": int(pred.sum()),
     }
-
 
 # ==============================
 # 정책별 단독 효과 비교
@@ -435,7 +399,6 @@ def run_single_policy_simulations(
     for scenario in scenarios:
         sim_df_single = apply_simulation_scenario(df=df, **scenario["params"])
         sim_result_single = predict_churn(sim_df_single, model, threshold)
-
         rows.append(
             {
                 "정책": scenario["정책"],
@@ -447,9 +410,8 @@ def run_single_policy_simulations(
 
     return pd.DataFrame(rows).sort_values("평균 이탈확률 감소폭", ascending=True)
 
-
 # ==============================
-# 예쁜 막대그래프 함수
+# 막대그래프 함수
 # ==============================
 def draw_pretty_bar_chart(title, ylabel, before_value, after_value, before_color, after_color):
     fig, ax = plt.subplots(figsize=(6.2, 4.45), facecolor="white")
@@ -459,17 +421,18 @@ def draw_pretty_bar_chart(title, ylabel, before_value, after_value, before_color
     values = [before_value, after_value]
     colors = [before_color, after_color]
 
-    x = np.array([0, 0.78])
+    x = np.array([0.10, 0.7])
 
     bars = ax.bar(
         x,
         values,
         color=colors,
-        width=0.30,
+        width=0.15,
         edgecolor="none",
         zorder=3
     )
 
+    # 축 스타일
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
     ax.spines["left"].set_color("#CBD5E1")
@@ -477,26 +440,32 @@ def draw_pretty_bar_chart(title, ylabel, before_value, after_value, before_color
     ax.spines["left"].set_linewidth(1.0)
     ax.spines["bottom"].set_linewidth(1.0)
 
+    # x축 라벨 크게
     ax.set_xticks(x)
     ax.set_xticklabels(labels, fontsize=15, fontweight="bold", color="#334155")
 
+    # y축 라벨 작게
     ax.tick_params(axis="y", labelsize=9, colors="#64748B")
     ax.set_ylabel(ylabel, fontsize=10, color="#475569", labelpad=8)
 
+    # 제목
     ax.set_title(title, fontsize=18, fontweight="bold", color="#0F172A", pad=12)
 
+    # 그리드
     ax.yaxis.grid(True, linestyle="--", linewidth=0.8, alpha=0.16)
     ax.set_axisbelow(True)
 
+    # 여백
     y_max = max(values)
     ax.set_ylim(0, y_max * 1.17 if y_max > 0 else 1)
     ax.set_xlim(-0.22, 1.0)
 
-    value_colors = ["#111827", "#1D4ED8"]
+    # 값 라벨
+    value_colors = ["#111827", "#576A8F"]
     for idx, (bar, value) in enumerate(zip(bars, values)):
         ax.text(
             bar.get_x() + bar.get_width() / 2,
-            value + y_max * 0.012 if y_max > 0 else value + 0.1,
+            value + y_max * 0.012,
             f"{value:.2f}%",
             ha="center",
             va="bottom",
@@ -505,6 +474,7 @@ def draw_pretty_bar_chart(title, ylabel, before_value, after_value, before_color
             color=value_colors[idx]
         )
 
+    # 감소 배지
     diff = before_value - after_value
     if diff >= 0:
         diff_text = f"▼ {diff:.2f}%p 감소"
@@ -532,7 +502,6 @@ def draw_pretty_bar_chart(title, ylabel, before_value, after_value, before_color
     )
 
     return fig
-
 
 # ==============================
 # 헤더
@@ -617,11 +586,6 @@ except Exception as e:
     st.error(f"시뮬레이션 계산 중 오류가 발생했습니다: {e}")
     with st.expander("디버깅 정보"):
         st.write("원본 데이터 컬럼:", df.columns.tolist())
-        try:
-            debug_X = make_model_input(df)
-            st.write("파생변수 생성 후 입력 컬럼:", debug_X.columns.tolist())
-        except Exception as inner_e:
-            st.write("입력 생성 중 추가 오류:", inner_e)
         st.write("threshold:", threshold)
     st.stop()
 
@@ -664,8 +628,8 @@ with col_left:
         ylabel="이탈확률 (%)",
         before_value=float(base_result["avg_prob"]),
         after_value=float(sim_result["avg_prob"]),
-        before_color="#F2A4A4",
-        after_color="#78A6E3",
+        before_color="#FF7444",
+        after_color="#B7BDF7",
     )
     st.pyplot(fig1, use_container_width=True)
     plt.close(fig1)
@@ -676,54 +640,54 @@ with col_right:
         ylabel="예상 이탈률 (%)",
         before_value=float(base_result["churn_rate"]),
         after_value=float(sim_result["churn_rate"]),
-        before_color="#E59696",
-        after_color="#6D9CD0",
+        before_color="#FF7444",
+        after_color="#B7BDF7",
     )
     st.pyplot(fig2, use_container_width=True)
     plt.close(fig2)
 
-# ==============================
-# 정책별 효과 비교
-# ==============================
-st.markdown('<div class="section-title">📌 정책별 효과 비교</div>', unsafe_allow_html=True)
-
-fig3, ax3 = plt.subplots(figsize=(9, 5), facecolor="white")
-ax3.set_facecolor("white")
-
-bars3 = ax3.barh(
-    policy_effect_df["정책"],
-    policy_effect_df["평균 이탈확률 감소폭"],
-    color="#8BB4EA",
-    edgecolor="none",
-    height=0.48
-)
-
-ax3.set_title("정책별 평균 이탈확률 감소폭", fontsize=15, fontweight="bold", color="#0F172A", pad=12)
-ax3.set_xlabel("감소폭 (%p)", fontsize=11, color="#475569")
-ax3.spines["top"].set_visible(False)
-ax3.spines["right"].set_visible(False)
-ax3.spines["left"].set_color("#CBD5E1")
-ax3.spines["bottom"].set_color("#CBD5E1")
-ax3.tick_params(axis="y", labelsize=11, colors="#334155")
-ax3.tick_params(axis="x", labelsize=10, colors="#64748B")
-ax3.xaxis.grid(True, linestyle="--", alpha=0.16)
-ax3.set_axisbelow(True)
-
-for bar, value in zip(bars3, policy_effect_df["평균 이탈확률 감소폭"]):
-    ax3.text(
-        value + 0.04,
-        bar.get_y() + bar.get_height() / 2,
-        f"{value:.2f}",
-        va="center",
-        fontsize=11,
-        color="#1E3A8A",
-        fontweight="bold"
-    )
-
-st.pyplot(fig3, use_container_width=True)
-plt.close(fig3)
-
-st.dataframe(policy_effect_df, use_container_width=True)
+# # ==============================
+# # 정책별 효과 비교
+# # ==============================
+# st.markdown('<div class="section-title">📌 정책별 효과 비교</div>', unsafe_allow_html=True)
+#
+# fig3, ax3 = plt.subplots(figsize=(9, 5), facecolor="white")
+# ax3.set_facecolor("white")
+#
+# bars3 = ax3.barh(
+#     policy_effect_df["정책"],
+#     policy_effect_df["평균 이탈확률 감소폭"],
+#     color="#8BB4EA",
+#     edgecolor="none",
+#     height=0.48
+# )
+#
+# ax3.set_title("정책별 평균 이탈확률 감소폭", fontsize=15, fontweight="bold", color="#0F172A", pad=12)
+# ax3.set_xlabel("감소폭 (%p)", fontsize=11, color="#475569")
+# ax3.spines["top"].set_visible(False)
+# ax3.spines["right"].set_visible(False)
+# ax3.spines["left"].set_color("#CBD5E1")
+# ax3.spines["bottom"].set_color("#CBD5E1")
+# ax3.tick_params(axis="y", labelsize=11, colors="#334155")
+# ax3.tick_params(axis="x", labelsize=10, colors="#64748B")
+# ax3.xaxis.grid(True, linestyle="--", alpha=0.16)
+# ax3.set_axisbelow(True)
+#
+# for bar, value in zip(bars3, policy_effect_df["평균 이탈확률 감소폭"]):
+#     ax3.text(
+#         value + 0.04,
+#         bar.get_y() + bar.get_height() / 2,
+#         f"{value:.2f}",
+#         va="center",
+#         fontsize=11,
+#         color="#1E3A8A",
+#         fontweight="bold"
+#     )
+#
+# st.pyplot(fig3, use_container_width=True)
+# plt.close(fig3)
+#
+# st.dataframe(policy_effect_df, use_container_width=True)
 
 # ==============================
 # 자동 요약문
@@ -737,6 +701,11 @@ st.success(
     f"{sim_result['churn_count']:,}명으로 감소하여 약 {saved_customers:,}명의 고객 이탈을 방어할 수 있습니다. "
     f"예상 방어 매출은 {saved_value:,.0f}원이며, 단일 정책 기준으로는 '{top_policy}'의 효과가 가장 크게 나타났습니다."
 )
+
+print("sklearn:", sklearn.__version__)
+print("joblib:", joblib.__version__)
+print("streamlit:", streamlit.__version__)
+print("pandas:", pandas.__version__)
 
 # ==============================
 # 변화 확인
