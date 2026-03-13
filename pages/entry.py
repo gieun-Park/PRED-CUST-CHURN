@@ -13,7 +13,9 @@ st.set_page_config(
 # =============================
 # 공통 스타일
 # =============================
+
 st.markdown("""
+
 <style>
 .block-container {
     padding-top: 1.2rem;
@@ -87,9 +89,12 @@ div[data-testid="stSidebarNav"]::before {
     font-size: 2rem;
     line-height: 1.5;
     font-weight: 800;
-    color: #2563eb;
+    color: #25343F;
     margin-bottom: 1.2rem;
     padding-left: 0.2rem;
+    
+    font-family: "Pretendard", "Noto Sans KR", sans-serif;
+    
 }
 
 div[data-testid="stSidebarNav"] ul {

@@ -1,3 +1,11 @@
+import sklearn
+import joblib
+import streamlit
+import pandas
+
+
+
+
 from pathlib import Path
 import platform
 
@@ -7,6 +15,7 @@ import pandas as pd
 import streamlit as st
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
+
 
 # ==============================
 # 페이지 설정
@@ -22,7 +31,7 @@ st.set_page_config(
 # ==============================
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_PATH = BASE_DIR / "data" / "insurance_policyholder_churn_synthetic.csv"
-MODEL_PATH = BASE_DIR / "model" / "churn_model_new.pkl"
+MODEL_PATH = BASE_DIR / "model" / "churn_model_jyhong.pkl"
 THRESHOLD_PATH = BASE_DIR / "model" / "threshold_new.pkl"
 
 TARGET_COL = "churn_flag"
@@ -692,6 +701,11 @@ st.success(
     f"{sim_result['churn_count']:,}명으로 감소하여 약 {saved_customers:,}명의 고객 이탈을 방어할 수 있습니다. "
     f"예상 방어 매출은 {saved_value:,.0f}원이며, 단일 정책 기준으로는 '{top_policy}'의 효과가 가장 크게 나타났습니다."
 )
+
+print("sklearn:", sklearn.__version__)
+print("joblib:", joblib.__version__)
+print("streamlit:", streamlit.__version__)
+print("pandas:", pandas.__version__)
 
 # ==============================
 # 변화 확인
