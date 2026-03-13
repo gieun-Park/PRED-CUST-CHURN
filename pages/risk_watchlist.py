@@ -128,6 +128,7 @@ with st.container(border=True):
     # 데이터 필터링 로직
     filtered = df.copy()
 
+    # 1. 키워드 검색 필터링
     if search_keyword:
         keyword = search_keyword.strip()
 
@@ -142,6 +143,10 @@ with st.container(border=True):
         elif search_category == "지역명":
             filtered = filtered[filtered["region_name"].astype(str).str.contains(keyword, case=False, na=False)]
 
+    # 2. 위험도 선택 필터링 (이 부분이 누락되어 있었습니다!)
+    if risk_filter != "모든 위험도":
+        filtered = filtered[filtered["risk_level"] == risk_filter]
+
     # 데이터 출력용 포맷팅
     show_cols = ["customer_id", "age", "region_name", "policy_type", "customer_tenure_months", "current_premium", "churn_probability_true", "risk_level"]
     result = filtered[show_cols].copy()
@@ -151,11 +156,11 @@ with st.container(border=True):
 
     # 2. 컬럼명 변경 (가입(년)으로 수정)
     result.columns = ["고객 ID", "나이", "지역", "보험 상품", "가입 기간", "월 보험료", "이탈 확률", "위험도"]
-    result["가입 기간"] = result["가입 기간"].apply(lambda x: f"{x}년")
+    # result["가입 기간"] = result["가입 기간"].apply(lambda x: f"{x}년")
 
     # 가독성을 위한 변환
     result["이탈 확률"] = (result["이탈 확률"] * 100).astype(int)
-    result["월 보험료"] = result["월 보험료"].apply(lambda x: f"{int(x):,}원")
+    # result["월 보험료"] = result["월 보험료"].apply(lambda x: f"{int(x):,}원")
 
     # 위험도별 색상 지정 함수
     def highlight_risk(row):
@@ -181,7 +186,9 @@ with st.container(border=True):
         hide_index=True,
         column_config={
             "위험도": st.column_config.TextColumn("위험도", help="이탈 확률에 따른 분류"),
-            "이탈 확률": st.column_config.ProgressColumn("이탈 확률", format="%d%%", min_value=0, max_value=100) # int+%로 출력하기 위해서 format을 d%%로 설정
+            "이탈 확률": st.column_config.ProgressColumn("이탈 확률", format="%d%%", min_value=0, max_value=100), # int+%로 출력하기 위해서 format을 d%%로 설정
+            "월 보험료": st.column_config.NumberColumn("월 보험료", format="%d원"),
+            "가입 기간": st.column_config.NumberColumn("가입 기간", format="%.1f년")
         }
     )
 
