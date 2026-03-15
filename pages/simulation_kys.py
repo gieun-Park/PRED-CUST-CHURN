@@ -511,29 +511,41 @@ st.markdown(
 )
 
 # ==============================
-# 사이드바
-# ==============================
-st.sidebar.markdown("## 🛠 시뮬레이션 시나리오 설정")
-
-price_relief_pct = st.sidebar.slider("전체 보험료 인상폭 완화 (%)", 0, 80, 40, 10)
-reduce_price_jump_customers_pct = st.sidebar.slider("급격한 보험료 인상 고객 완화 (%)", 0, 100, 60, 10)
-reduce_late_risk_customers_pct = st.sidebar.slider("고연체 고객 정상화 (%)", 0, 100, 60, 10)
-reduce_complaint_customers_pct = st.sidebar.slider("민원 고객 해소 (%)", 0, 100, 60, 10)
-reduce_quote_requested_customers_pct = st.sidebar.slider("비교 견적 요청 감소 (%)", 0, 100, 50, 10)
-reduce_downgrade_customers_pct = st.sidebar.slider("보장 축소 고객 감소 (%)", 0, 100, 50, 10)
-
-clv = st.sidebar.number_input(
-    "고객 1명당 예상 유지 가치(원)",
-    min_value=0,
-    value=1200000,
-    step=100000
-)
-
-run_simulation = st.sidebar.button("🚀 시뮬레이션 실행", use_container_width=True)
-
-# ==============================
 # 로드
 # ==============================
+
+# ==============================
+# 메인 영역 시뮬레이션 시나리오 설정
+# ==============================
+st.markdown('<div class="section-title">🛠️ 시뮬레이션 시나리오 설정</div>', unsafe_allow_html=True)
+
+with st.container(border=True):
+    # 2행 2열 구조로 배치
+    row1_col1, row1_col2 = st.columns(2)
+    row2_col1, row2_col2 = st.columns(2)
+
+    with row1_col1:
+        price_relief_pct = st.slider("전체 보험료 인상폭 완화 (%)", 0, 80, 40, 10)
+    with row1_col2:
+        reduce_price_jump_customers_pct = st.slider("급격한 보험료 인상 고객 완화 (%)", 0, 100, 60, 10)
+    with row2_col1:
+        reduce_late_risk_customers_pct = st.slider("고연체 고객 정상화 (%)", 0, 100, 60, 10)
+    with row2_col2:
+        reduce_downgrade_customers_pct = st.slider("보장 축소 고객 감소 (%)", 0, 100, 50, 10)
+
+    # 고객 가치 입력과 실행 버튼
+    st.divider()
+    col_bottom1, col_bottom2 = st.columns([2, 1])
+    with col_bottom1:
+        clv = st.number_input("고객 1명당 예상 유지 가치(원)", min_value=0, value=1200000, step=100000)
+    with col_bottom2:
+        st.write("")  # 간격 맞춤용
+        run_simulation = st.button("🚀 시뮬레이션 실행", use_container_width=True, type="primary")
+
+# 민원 해소와 비교 견적 감소는 0으로 고정 (함수 에러 방지용)
+reduce_complaint_customers_pct = 0
+reduce_quote_requested_customers_pct = 0
+
 try:
     df = load_data()
     model, threshold = load_model()
