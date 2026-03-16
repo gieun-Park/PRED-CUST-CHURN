@@ -87,7 +87,7 @@ Team RETURNS는 보험사의 유지율(Retention Rate)을 극대화하기 위해
 - Service: - **Service:** <img src="https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white"> <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white"> <img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white">
 
 ## 4. 📊 데이터 분석 및 전처리
-📊 데이터셋 구성 (Dataset Overview)
+📊 데이터셋 구성 (Dataset Overview)\
 본 프로젝트는 보험 고객의 행동 데이터를 분석하여 이탈 확률을 예측하기 위해 Parquet 형식의 고성능 데이터셋을 활용했습니다.
 
 - 데이터 규모: 약 40여 개의 피처(Features)로 구성된 고객별 보험 유지/청구 이력 데이터.
@@ -144,6 +144,26 @@ Team RETURNS는 보험사의 유지율(Retention Rate)을 극대화하기 위해
 
 
 ## 6. 📈 주요 기능 및 화면
+1. 홈
+![img.png](images/readme/img.png)
+2. 모델성능 대시보드
+- 핵심 성능 지표
+![img_1.png](images/readme/img_1.png)
+- 예측 및 분류 상세 분석
+![img_2.png](images/readme/img_2.png)
+- 모델판단근거 분석
+![img_3.png](images/readme/img_3.png)
+3. 예측 / 시뮬레이션
+- 자동분석 레포트
+![img_4.png](images/readme/img_4.png)
+- 고객이탈예측
+![img_5.png](images/readme/img_5.png)
+- 위험고객관리
+![img_6.png](images/readme/img_6.png)
+- 시뮬레이션
+![img_7.png](images/readme/img_7.png)
+![img_8.png](images/readme/img_8.png)
+![img_9.png](images/readme/img_9.png)
 
 ## 7. 📂 프로젝트 구조 (Project Structure)
 
