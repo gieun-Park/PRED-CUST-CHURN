@@ -3,9 +3,26 @@ from pathlib import Path
 import pandas as pd
 import plotly.express as px
 import matplotlib.pyplot as plt
+from matplotlib import font_manager
 import streamlit as st
 
 from src.model_service import load_scored_customers_file
+
+
+WINDOWS_FONT_PATHS = [
+    Path("C:/Windows/Fonts/malgun.ttf"),
+    Path("C:/Windows/Fonts/malgunbd.ttf"),
+]
+
+for font_path in WINDOWS_FONT_PATHS:
+    if font_path.exists():
+        font_manager.fontManager.addfont(str(font_path))
+        plt.rcParams["font.family"] = font_manager.FontProperties(fname=str(font_path)).get_name()
+        break
+else:
+    plt.rcParams["font.family"] = ["Malgun Gothic", "AppleGothic", "NanumGothic", "sans-serif"]
+
+plt.rcParams["axes.unicode_minus"] = False
 
 
 st.set_page_config(
