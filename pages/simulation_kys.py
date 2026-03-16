@@ -125,7 +125,31 @@ def load_data():
 
 @st.cache_resource
 def load_model():
+    # 만약 load_model_bundle()에서 에러가 난다면 아래 주석을 해제하여 직접 로드하세요.
+    # model = joblib.load(MODEL_PATH)
+    # threshold = joblib.load(THRESHOLD_PATH)
+    # return model, threshold
     return load_model_bundle()
+
+# ==============================
+# 데이터 / 모델 로드 실행 및 CLV 계산 (여기서 한 번만 실행됨)
+# ==============================
+try:
+    # 위에서 정의한 캐시 함수를 호출하여 데이터를 메모리에 올립니다.
+    df = load_data()
+    model, threshold = load_model()
+
+    # [추가] 로드된 데이터를 사용하여 보험료 평균 기반 CLV 계산
+    if 'current_premium' in df.columns:
+        avg_monthly_premium = df['current_premium'].mean()
+        # 평균 월 보험료의 12개월분(1년 가치)을 기본값으로 설정
+        default_clv = int(avg_monthly_premium * 12)
+    else:
+        default_clv = 1200000  # 컬럼 없을 경우 백업 기본값
+
+except Exception as e:
+    st.error(f"데이터 또는 모델 로드 중 오류가 발생했습니다: {e}")
+    st.stop()
 
 # ==============================
 # 노트북 파생변수 그대로 사용
@@ -537,7 +561,12 @@ with st.container(border=True):
     st.divider()
     col_bottom1, col_bottom2 = st.columns([2, 1])
     with col_bottom1:
-        clv = st.number_input("고객 1명당 예상 유지 가치(원)", min_value=0, value=1200000, step=100000)
+        clv = st.number_input(
+            "고객 1명당 예상 유지 가치(원)",
+            min_value=0,
+            value=default_clv,
+            step=100000
+        )
     with col_bottom2:
         st.write("")  # 간격 맞춤용
         run_simulation = st.button("🚀 시뮬레이션 실행", use_container_width=True, type="primary")
@@ -556,6 +585,92 @@ except Exception as e:
 if not run_simulation:
     st.info("좌측 사이드바에서 조건을 설정한 뒤 시뮬레이션 실행 버튼을 눌러주세요.")
     st.stop()
+
+# ==============================
+# 실행 로직 (버튼 클릭 시)
+# ==============================
+if run_simulation:
+    try:
+        # 1. 원본 결과 (AS-IS)
+        base_result = predict_churn(df, model, threshold)
+
+        # 2. 시뮬레이션 적용 (TO-BE)
+        sim_df = apply_simulation_scenario(
+            df=df,
+            price_relief_pct=price_relief_pct,
+            reduce_price_jump_customers_pct=reduce_price_jump_customers_pct,
+            reduce_late_risk_customers_pct=reduce_late_risk_customers_pct,
+            reduce_complaint_customers_pct=reduce_complaint_customers_pct,
+            reduce_quote_requested_customers_pct=reduce_quote_requested_customers_pct,
+            reduce_downgrade_customers_pct=reduce_downgrade_customers_pct,
+        )
+
+        # 3. 시뮬레이션 결과 예측
+        sim_result = predict_churn(sim_df, model, threshold)
+
+        # 4. 정책별 단독 기여도 분석 (핵심!)
+        policy_effect_df = run_single_policy_simulations(
+            df=df,
+            model=model,
+            threshold=threshold,
+            price_relief_pct=price_relief_pct,
+            reduce_price_jump_customers_pct=reduce_price_jump_customers_pct,
+            reduce_late_risk_customers_pct=reduce_late_risk_customers_pct,
+            reduce_complaint_customers_pct=reduce_complaint_customers_pct,
+            reduce_quote_requested_customers_pct=reduce_quote_requested_customers_pct,
+            reduce_downgrade_customers_pct=reduce_downgrade_customers_pct,
+        )
+
+        # 5. 지표 계산
+        improvement = base_result["churn_rate"] - sim_result["churn_rate"]
+        saved_customers = base_result["churn_count"] - sim_result["churn_count"]
+        saved_value = saved_customers * clv
+
+    except Exception as e:
+        st.error(f"시뮬레이션 도중 오류 발생: {e}")
+        st.stop()
+
+    # --- KPI 대시보드 출력 ---
+    st.markdown('<div class="section-title">📊 시뮬레이션 결과</div>', unsafe_allow_html=True)
+    col1, col2, col3, col4, col5 = st.columns(5)
+
+    with col1:
+        st.metric("현재 이탈률", f'{base_result["churn_rate"]:.2f}%')
+    with col2:
+        st.metric("개선 후 이탈률", f'{sim_result["churn_rate"]:.2f}%', f"{-improvement:.2f}%p", delta_color="inverse")
+    with col3:
+        st.metric("평균 확률 감소", f'{sim_result["avg_prob"]:.2f}%',
+                  f'{sim_result["avg_prob"] - base_result["avg_prob"]:.2f}%p', delta_color="inverse")
+    with col4:
+        st.metric("방어 고객 수", f'{saved_customers:,}명')
+    with col5:
+        st.metric("예상 방어 매출", f"{saved_value / 1000000:,.1f}백만 원")
+
+    # --- 시각화: 정책별 효과 비교 (주석 해제 및 활성화) ---
+    st.markdown('<div class="section-title">📌 정책별 기여도 분석</div>', unsafe_allow_html=True)
+
+    fig3, ax3 = plt.subplots(figsize=(10, 5), facecolor="white")
+    # 효과가 큰 순서대로 정렬하여 시각화
+    plot_df = policy_effect_df.sort_values("평균 이탈확률 감소폭", ascending=True)
+
+    bars3 = ax3.barh(plot_df["정책"], plot_df["평균 이탈확률 감소폭"], color="#8BB4EA", height=0.6)
+    ax3.set_title("각 정책을 단독 시행했을 때의 이탈확률 감소 효과", fontsize=14, pad=15)
+    ax3.set_xlabel("이탈확률 감소폭 (%p)")
+
+    # 수치 라벨링
+    for bar in bars3:
+        width = bar.get_width()
+        ax3.text(width + 0.01, bar.get_y() + bar.get_height() / 2, f'{width:.3f}', va='center', fontweight='bold')
+
+    st.pyplot(fig3, use_container_width=True)
+
+    # --- 요약문 자동 생성 ---
+    top_policy = policy_effect_df.sort_values("평균 이탈확률 감소폭", ascending=False).iloc[0]["정책"]
+    st.success(
+        f"✅ **시뮬레이션 요약**: 정책 도입 시 총 **{saved_customers:,}명**을 추가 방어하여 **{saved_value:,.0f}원**의 가치를 보존할 수 있습니다. 가장 효율적인 정책은 **'{top_policy}'**로 나타났습니다.")
+
+else:
+    st.info("💡 설정값을 조절한 후 '시뮬레이션 실행' 버튼을 눌러주세요. 실제 AI 모델이 결과를 계산합니다.")
 
 # ==============================
 # 계산
