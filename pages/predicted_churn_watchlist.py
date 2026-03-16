@@ -1,17 +1,14 @@
 import streamlit as st
 
-from src.model_service import load_model_bundle, score_all_customers, summarize_scored_customers
+from src.model_service import (
+    load_model_bundle,
+    load_scored_customers_file,
+    summarize_scored_customers,
+)
 
 
 st.set_page_config(page_title="이탈 예상 고객 목록", page_icon="🎯", layout="wide")
-
-
-@st.cache_data
-def load_scored_data():
-    return score_all_customers()
-
-
-scored_df = load_scored_data()
+scored_df = load_scored_customers_file()
 summary = summarize_scored_customers(scored_df)
 _, threshold = load_model_bundle()
 

@@ -1,5 +1,12 @@
 import streamlit as st
 
+from src.model_service import refresh_scored_customers_file
+
+
+st.set_page_config(
+    page_title="Dashboard",
+    layout="wide",
+)
 
 entry_p = st.Page("pages/entry.py", title="홈", icon="🏠", default=True)
 churn_predictor_p = st.Page("pages/churn_predictor.py", title="고객이탈예측", icon="🔮")
@@ -21,15 +28,16 @@ if "prev_page" not in st.session_state:
 if st.session_state.prev_page != pg.title:
     st.session_state.prev_page = pg.title
 
-    keep_keys = ["prev_page"]
+    keep_keys = ["prev_page", "shared_model_cache_warmed"]
     for key in list(st.session_state.keys()):
         if key not in keep_keys:
             del st.session_state[key]
 
-st.set_page_config(
-    page_title="Dashboard",
-    layout="wide"
-)
+if "shared_model_cache_warmed" not in st.session_state:
+    # 앱 시작 시 전체 고객 예측 결과 파일을 먼저 생성합니다.
+    with st.spinner("모델 예측 결과를 준비하는 중입니다..."):
+        refresh_scored_customers_file()
+    st.session_state.shared_model_cache_warmed = True
 
 st.markdown(
     """
@@ -58,6 +66,72 @@ st.markdown(
         }
         .element-container:has(iframe) {
             margin-bottom: -10px !important;
+        }
+        .block-container {
+            padding-top: 1.2rem;
+            padding-bottom: 2rem;
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+        .main-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 0.2rem;
+        }
+        .sub-title {
+            font-size: 1.05rem;
+            color: #64748b;
+            margin-bottom: 1.5rem;
+        }
+        .card {
+            background-color: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 18px;
+            padding: 20px 22px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+        }
+        .card-title {
+            font-size: 1rem;
+            color: #475569;
+            margin-bottom: 0.6rem;
+        }
+        .card-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #0f172a;
+        }
+        /* section-card 역할을 하는 컨테이너 스타일 */
+        .stColumn > div > div > [data-testid="stVerticalBlock"]{
+            background-color: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 18px;
+            padding: 18px 20px;
+            margin-top: 12px;
+        }
+        .section-card {
+            background-color: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 18px;
+            padding: 18px 20px;
+            margin-top: 12px;
+        }
+        .section-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 0.5rem;
+        }
+        div[data-testid="stSidebarNav"]::before {
+            content: "보험 이탈 예측\\A고객 관리 시스템";
+            white-space: pre-line;
+            display: block;
+            font-size: 2rem;
+            line-height: 1.5;
+            font-weight: 800;
+            color: #2563eb;
+            margin-bottom: 1.2rem;
+            padding-left: 0.2rem;
         }
     </style>
     """,

@@ -6,25 +6,13 @@ from src.model_service import (
     get_corr_plot_path,
     get_threshold_plot_path,
     load_model_bundle,
-    score_all_customers,
+    load_scored_customers_file,
 )
 
 
 st.set_page_config(page_title="이탈 예측 모델 모니터링", page_icon="📈", layout="wide")
-
-
-@st.cache_data
-def load_metrics():
-    return evaluate_saved_model()
-
-
-@st.cache_data
-def load_scored_data():
-    return score_all_customers()
-
-
-metrics = load_metrics()
-scored_df = load_scored_data()
+metrics = evaluate_saved_model()
+scored_df = load_scored_customers_file()
 _, threshold = load_model_bundle()
 tn, fp = metrics["confusion_matrix"][0]
 fn, tp = metrics["confusion_matrix"][1]
