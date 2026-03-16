@@ -318,8 +318,9 @@ st.markdown(
 )
 
 # 조회 조건
+
+st.markdown('<div class="section-title">고객 정보 입력</div>', unsafe_allow_html=True)
 with st.container(border=True):
-    st.markdown('<div class="section-title">고객 정보 입력</div>', unsafe_allow_html=True)
 
     with st.form("predict_form", border=False):
         col1, col2, col3, col4 = st.columns(4)

@@ -42,100 +42,105 @@ if "shared_model_cache_warmed" not in st.session_state:
 st.markdown(
     """
     <style>
+    
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
-        div.st-emotion-cache-zy6yx3 {
-            padding: 3rem 1rem 10rem !important;
-        }
-        div.st-emotion-cache-1frkdi4 {
-            margin-bottom: -1.5rem !important;
-        }
-        div.stButton > button p {
-            white-space: nowrap !important;
-            font-size: 14px !important;
-        }
-        div.stButton > button {
-            min-width: 35px !important;
-            width: 100% !important;
-            padding: 0px !important;
-            margin: 0px 2px !important;
-        }
-        [data-testid="column"] {
-            padding-left: 1px !important;
-            padding-right: 1px !important;
-        }
-        .element-container:has(iframe) {
-            margin-bottom: -10px !important;
-        }
-        .block-container {
-            padding-top: 1.2rem;
-            padding-bottom: 2rem;
-            padding-left: 2rem;
-            padding-right: 2rem;
-        }
-        .main-title {
-            font-size: 2.2rem;
-            font-weight: 800;
-            color: #0f172a;
-            margin-bottom: 0.2rem;
-        }
-        .sub-title {
-            font-size: 1.05rem;
-            color: #64748b;
-            margin-bottom: 1.5rem;
-        }
-        .card {
-            background-color: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 18px;
-            padding: 20px 22px;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-        }
-        .card-title {
-            font-size: 1rem;
-            color: #475569;
-            margin-bottom: 0.6rem;
-        }
-        .card-value {
-            font-size: 2.2rem;
-            font-weight: 800;
-            color: #0f172a;
-        }
-        /* section-card 역할을 하는 컨테이너 스타일 */
-        .stColumn > div > div > [data-testid="stVerticalBlock"]{
-            background-color: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 18px;
-            padding: 18px 20px;
-            margin-top: 12px;
-        }
-        .section-card {
-            background-color: white;
-            # border: 1px solid #e5e7eb;
-            # border-radius: 18px;
-            padding: 18px 20px;
-            margin-top: 12px;
-            height: 100%;
-        }
-        .section-title {
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: #0f172a;
-            margin-bottom: 0.5rem;
-            border-left: 5px solid #3b82f6;
-            padding-left: 10px;
-        }
-        div[data-testid="stSidebarNav"]::before {
-            content: "보험 이탈 예측\\A고객 관리 시스템";
-            white-space: pre-line;
-            display: block;
-            font-size: 2rem;
-            line-height: 1.5;
-            font-weight: 800;
-            color: #2563eb;
-            margin-bottom: 1.2rem;
-            padding-left: 0.2rem;
-        }
+    div.st-emotion-cache-zy6yx3 {
+        padding: 3rem 1rem 10rem !important;
+    }
+    div.st-emotion-cache-1frkdi4 {
+        margin-bottom: -1.5rem !important;
+    }
+    div.stButton > button p {
+        white-space: nowrap !important;
+        font-size: 14px !important;
+    }
+    div.stButton > button {
+        min-width: 35px !important;
+        width: 100% !important;
+        padding: 0px !important;
+        margin: 0px 2px !important;
+    }
+    [data-testid="column"] {
+        padding-left: 1px !important;
+        padding-right: 1px !important;
+    }
+    .element-container:has(iframe) {
+        margin-bottom: -10px !important;
+    }
+    .block-container {
+        padding-top: 1.2rem;
+        padding-bottom: 2rem;
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+    .main-title {
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: #0f172a;
+        margin-bottom: 0.2rem;
+    }
+    .sub-title {
+        font-size: 1.05rem;
+        color: #64748b;
+        margin-bottom: 1.5rem;
+    }
+    .card {
+        background-color: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 18px;
+        padding: 20px 22px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    }
+    .card-title {
+        font-size: 1rem;
+        color: #475569;
+        margin-bottom: 0.6rem;
+    }
+    .card-value {
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: #0f172a;
+    }
+    /* section-card 역할을 하는 컨테이너 스타일 */
+    .stColumn > div > div > [data-testid="stVerticalBlock"]{
+        background-color: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 18px;
+        padding: 18px 20px;
+        margin-top: 12px;
+    }
+    .section-card {
+        background-color: white;
+        # border: 1px solid #e5e7eb;
+        # border-radius: 18px;
+        padding: 18px 20px;
+        margin-top: 12px;
+        height: 100%;
+    }
+    .section-title {
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: #0f172a;
+        margin-bottom: 0.5rem;
+        border-left: 5px solid #034EA2;
+        padding-left: 10px;
+    }
+    div[data-testid="stSidebarNav"]::before {
+        content: "보험 이탈 예측\\A고객 관리 시스템";
+        white-space: pre-line;
+        display: block;
+        font-size: 2rem;
+        line-height: 1.5;
+        font-weight: 800;
+        color: #034EA2;/*#30364F;#2563eb;*/
+        margin-bottom: 1.2rem;
+        padding-left: 0.2rem;
+    }
+    .stSidebar {
+        min-width: 320px;
+        /*background-color: #ACBAC4;*/
+    }
     </style>
     """,
     unsafe_allow_html=True,
