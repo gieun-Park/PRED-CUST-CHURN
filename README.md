@@ -196,4 +196,203 @@ PRED-CUST-CHURN/
 ├── model/                              # 학습된 모델 저장 폴더
 ├── requirements.txt                    # 필요 라이브러리 목록
 └── app.py                              # 실행 streamlit
-]()
+
+
+## 8. 🫱🏻‍🫲🏻팀원 회고
+<table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd; margin-bottom: 30px;">
+    <thead>
+        <tr style="background-color: #f8f9fa;">
+            <th style="width: 15%; border: 1px solid #ddd; padding: 10px;">대상자</th>
+            <th style="width: 15%; border: 1px solid #ddd; padding: 10px;">작성자</th>
+            <th style="border: 1px solid #ddd; padding: 10px;">회고 내용</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td rowspan="5" style="text-align: center; font-weight: bold; border: 1px solid #ddd;">김이선</td>
+            <td style="text-align: center; border: 1px solid #ddd;"></td>
+            <td style="border: 1px solid #ddd; padding: 10px;"></td>
+        </tr>
+        <tr>
+            <td style="text-align: center; border: 1px solid #ddd;"></td>
+            <td style="border: 1px solid #ddd; padding: 10px;"></td>
+        </tr>
+        <tr>
+            <td style="text-align: center; border: 1px solid #ddd;"></td>
+            <td style="border: 1px solid #ddd; padding: 10px;"></td>
+        </tr>
+        <tr>
+            <td style="text-align: center; border: 1px solid #ddd;"></td>
+            <td style="border: 1px solid #ddd; padding: 10px;"></td>
+        </tr>
+        <tr>
+            <td style="text-align: center; border: 1px solid #ddd;"></td>
+            <td style="border: 1px solid #ddd; padding: 10px;"></td>
+        </tr>
+    </tbody>
+</table>
+
+<table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd; margin-bottom: 30px;">
+    <thead>
+        <tr style="background-color: #f8f9fa;">
+            <th style="width: 15%; border: 1px solid #ddd; padding: 10px;">대상자</th>
+            <th style="width: 15%; border: 1px solid #ddd; padding: 10px;">작성자</th>
+            <th style="border: 1px solid #ddd; padding: 10px;">회고 내용</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td rowspan="5" style="text-align: center; font-weight: bold; border: 1px solid #ddd;">박기은</td>
+            <td style="text-align: center; border: 1px solid #ddd;"></td>
+            <td style="border: 1px solid #ddd; padding: 10px;"></td>
+        </tr>
+        <tr>
+            <td style="text-align: center; border: 1px solid #ddd;"></td>
+            <td style="border: 1px solid #ddd; padding: 10px;"></td>
+        </tr>
+        <tr>
+            <td style="text-align: center; border: 1px solid #ddd;"></td>
+            <td style="border: 1px solid #ddd; padding: 10px;"></td>
+        </tr>
+        <tr>
+            <td style="text-align: center; border: 1px solid #ddd;"></td>
+            <td style="border: 1px solid #ddd; padding: 10px;"></td>
+        </tr>
+        <tr>
+            <td style="text-align: center; border: 1px solid #ddd;"></td>
+            <td style="border: 1px solid #ddd; padding: 10px;"></td>
+        </tr>
+    </tbody>
+</table>
+
+<table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd; margin-bottom: 30px;">
+    <thead>
+        <tr style="background-color: #f8f9fa;">
+            <th style="width: 15%; border: 1px solid #ddd; padding: 10px;">대상자</th>
+            <th style="width: 15%; border: 1px solid #ddd; padding: 10px;">작성자</th>
+            <th style="border: 1px solid #ddd; padding: 10px;">회고 내용</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td rowspan="5" style="text-align: center; font-weight: bold; border: 1px solid #ddd;">박은지</td>
+            <td style="text-align: center; border: 1px solid #ddd;"></td>
+            <td style="border: 1px solid #ddd; padding: 10px;"></td>
+        </tr>
+        <tr>
+            <td style="text-align: center; border: 1px solid #ddd;"></td>
+            <td style="border: 1px solid #ddd; padding: 10px;"></td>
+        </tr>
+        <tr>
+            <td style="text-align: center; border: 1px solid #ddd;"></td>
+            <td style="border: 1px solid #ddd; padding: 10px;"></td>
+        </tr>
+        <tr>
+            <td style="text-align: center; border: 1px solid #ddd;"></td>
+            <td style="border: 1px solid #ddd; padding: 10px;"></td>
+        </tr>
+        <tr>
+            <td style="text-align: center; border: 1px solid #ddd;"></td>
+            <td style="border: 1px solid #ddd; padding: 10px;"></td>
+        </tr>
+    </tbody>
+</table>
+
+<table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd; margin-bottom: 30px;">
+    <thead>
+        <tr style="background-color: #f8f9fa;">
+            <th style="width: 15%; border: 1px solid #ddd; padding: 10px;">대상자</th>
+            <th style="width: 15%; border: 1px solid #ddd; padding: 10px;">작성자</th>
+            <th style="border: 1px solid #ddd; padding: 10px;">회고 내용</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td rowspan="5" style="text-align: center; font-weight: bold; border: 1px solid #ddd;">위희찬</td>
+            <td style="text-align: center; border: 1px solid #ddd;"></td>
+            <td style="border: 1px solid #ddd; padding: 10px;"></td>
+        </tr>
+        <tr>
+            <td style="text-align: center; border: 1px solid #ddd;"></td>
+            <td style="border: 1px solid #ddd; padding: 10px;"></td>
+        </tr>
+        <tr>
+            <td style="text-align: center; border: 1px solid #ddd;"></td>
+            <td style="border: 1px solid #ddd; padding: 10px;"></td>
+        </tr>
+        <tr>
+            <td style="text-align: center; border: 1px solid #ddd;"></td>
+            <td style="border: 1px solid #ddd; padding: 10px;"></td>
+        </tr>
+        <tr>
+            <td style="text-align: center; border: 1px solid #ddd;"></td>
+            <td style="border: 1px solid #ddd; padding: 10px;"></td>
+        </tr>
+    </tbody>
+</table>
+
+<table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd; margin-bottom: 30px;">
+    <thead>
+        <tr style="background-color: #f8f9fa;">
+            <th style="width: 15%; border: 1px solid #ddd; padding: 10px;">대상자</th>
+            <th style="width: 15%; border: 1px solid #ddd; padding: 10px;">작성자</th>
+            <th style="border: 1px solid #ddd; padding: 10px;">회고 내용</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td rowspan="5" style="text-align: center; font-weight: bold; border: 1px solid #ddd;">이선호</td>
+            <td style="text-align: center; border: 1px solid #ddd;"></td>
+            <td style="border: 1px solid #ddd; padding: 10px;"></td>
+        </tr>
+        <tr>
+            <td style="text-align: center; border: 1px solid #ddd;"></td>
+            <td style="border: 1px solid #ddd; padding: 10px;"></td>
+        </tr>
+        <tr>
+            <td style="text-align: center; border: 1px solid #ddd;"></td>
+            <td style="border: 1px solid #ddd; padding: 10px;"></td>
+        </tr>
+        <tr>
+            <td style="text-align: center; border: 1px solid #ddd;"></td>
+            <td style="border: 1px solid #ddd; padding: 10px;"></td>
+        </tr>
+        <tr>
+            <td style="text-align: center; border: 1px solid #ddd;"></td>
+            <td style="border: 1px solid #ddd; padding: 10px;"></td>
+        </tr>
+    </tbody>
+</table>
+
+<table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd; margin-bottom: 30px;">
+    <thead>
+        <tr style="background-color: #f8f9fa;">
+            <th style="width: 15%; border: 1px solid #ddd; padding: 10px;">대상자</th>
+            <th style="width: 15%; border: 1px solid #ddd; padding: 10px;">작성자</th>
+            <th style="border: 1px solid #ddd; padding: 10px;">회고 내용</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td rowspan="5" style="text-align: center; font-weight: bold; border: 1px solid #ddd;">홍지윤</td>
+            <td style="text-align: center; border: 1px solid #ddd;"></td>
+            <td style="border: 1px solid #ddd; padding: 10px;"></td>
+        </tr>
+        <tr>
+            <td style="text-align: center; border: 1px solid #ddd;"></td>
+            <td style="border: 1px solid #ddd; padding: 10px;"></td>
+        </tr>
+        <tr>
+            <td style="text-align: center; border: 1px solid #ddd;"></td>
+            <td style="border: 1px solid #ddd; padding: 10px;"></td>
+        </tr>
+        <tr>
+            <td style="text-align: center; border: 1px solid #ddd;"></td>
+            <td style="border: 1px solid #ddd; padding: 10px;"></td>
+        </tr>
+        <tr>
+            <td style="text-align: center; border: 1px solid #ddd;"></td>
+            <td style="border: 1px solid #ddd; padding: 10px;"></td>
+        </tr>
+    </tbody>
+</table>
