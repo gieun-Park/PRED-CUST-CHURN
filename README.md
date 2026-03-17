@@ -210,8 +210,8 @@ PRED-CUST-CHURN/
     <tbody>
         <tr>
             <td rowspan="5" style="text-align: center; font-weight: bold; border: 1px solid #ddd;">김이선</td>
-            <td style="text-align: center; border: 1px solid #ddd;"></td>
-            <td style="border: 1px solid #ddd; padding: 10px;"></td>
+            <td style="text-align: center; border: 1px solid #ddd;">박기은</td>
+            <td style="border: 1px solid #ddd; padding: 10px;">스트림릿의 전체 구조를 기획하고 화면 구성의 기반을 마련하여 팀원들이 효율적으로 개발을 이어갈 수 있도록 큰 역할을 해주셨습니다.</td>
         </tr>
         <tr>
             <td style="text-align: center; border: 1px solid #ddd;"></td>
@@ -276,8 +276,8 @@ PRED-CUST-CHURN/
     <tbody>
         <tr>
             <td rowspan="5" style="text-align: center; font-weight: bold; border: 1px solid #ddd;">박은지</td>
-            <td style="text-align: center; border: 1px solid #ddd;"></td>
-            <td style="border: 1px solid #ddd; padding: 10px;"></td>
+            <td style="text-align: center; border: 1px solid #ddd;">박기은</td>
+            <td style="border: 1px solid #ddd; padding: 10px;">프로젝트에 적합한 데이터셋을 선정하는데 기여하셨으며 컨디션이 좋지 않은 와중에도 발표 준비를 맡아 자료 정리에 힘써주셨습니다.</td>
         </tr>
         <tr>
             <td style="text-align: center; border: 1px solid #ddd;"></td>
@@ -309,8 +309,8 @@ PRED-CUST-CHURN/
     <tbody>
         <tr>
             <td rowspan="5" style="text-align: center; font-weight: bold; border: 1px solid #ddd;">위희찬</td>
-            <td style="text-align: center; border: 1px solid #ddd;"></td>
-            <td style="border: 1px solid #ddd; padding: 10px;"></td>
+            <td style="text-align: center; border: 1px solid #ddd;">박기은</td>
+            <td style="border: 1px solid #ddd; padding: 10px;">프로젝트에서 가장 중요한 머신러닝 모델 학습과 성능 최적화를 담당하여 예측 결과의 완성도를 높이는 데 기여해주셨습니다.</td>
         </tr>
         <tr>
             <td style="text-align: center; border: 1px solid #ddd;"></td>
@@ -342,8 +342,8 @@ PRED-CUST-CHURN/
     <tbody>
         <tr>
             <td rowspan="5" style="text-align: center; font-weight: bold; border: 1px solid #ddd;">이선호</td>
-            <td style="text-align: center; border: 1px solid #ddd;"></td>
-            <td style="border: 1px solid #ddd; padding: 10px;"></td>
+            <td style="text-align: center; border: 1px solid #ddd;">박기은</td>
+            <td style="border: 1px solid #ddd; padding: 10px;">프로젝트 과정에서 다양한 아이디어를 제시해 주셔서 방향 설정에 큰 도움을 주셨습니다.</td>
         </tr>
         <tr>
             <td style="text-align: center; border: 1px solid #ddd;"></td>
@@ -375,8 +375,8 @@ PRED-CUST-CHURN/
     <tbody>
         <tr>
             <td rowspan="5" style="text-align: center; font-weight: bold; border: 1px solid #ddd;">홍지윤</td>
-            <td style="text-align: center; border: 1px solid #ddd;"></td>
-            <td style="border: 1px solid #ddd; padding: 10px;"></td>
+            <td style="text-align: center; border: 1px solid #ddd;">박기은</td>
+            <td style="border: 1px solid #ddd; padding: 10px;">프로젝트 구조를 설계하여 전체 개발 흐름을 정리하고, 효율적인 작업이 가능하도록 기반을 마련해주셔서 협업이 원활하게 진행될 수 있었습니다.</td>
         </tr>
         <tr>
             <td style="text-align: center; border: 1px solid #ddd;"></td>
